@@ -1,7 +1,7 @@
 # VORT-X: The Professional Network for Gamers
 
 <p align="center">
-  <img src="https://iili.io/FSFGRXS.jpg" alt="VORT-X Banner" data-ai-hint="abstract gaming background" width="800">
+  <img src="https://raw.githubusercontent.com/yourusername/VORT-X/main/public/banner.jpg" alt="VORT-X - Gaming Setup with RGB Keyboard, Mouse, Headset and Controller" width="100%">
 </p>
 
 <p align="center">
