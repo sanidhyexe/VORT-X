@@ -23,7 +23,7 @@ const games = [
     {
         id: 11,
         title: "Battlegrounds Mobile India",
-        image: "/home/user/studio/IMAGES/peakpx.jpg",
+        image: "/peakpx.jpg",
         imageHint: "bgmi game characters",
     },
     {

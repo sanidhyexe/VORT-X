@@ -1,12 +1,14 @@
 
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, memo } from 'react';
 
-const ParticleBackground = () => {
+const ParticleBackground = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const frameCountRef = useRef(0);
+  const lastFrameTime = useRef(0);
 
-  const draw = useCallback((ctx: CanvasRenderingContext2D, frameCount: number, particles: any[]) => {
+  const draw = useCallback((ctx: CanvasRenderingContext2D, particles: any[]) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     
     particles.forEach(p => {
@@ -22,6 +24,7 @@ const ParticleBackground = () => {
       if (p.y < 0 || p.y > ctx.canvas.height) p.vy *= -1;
     });
 
+    // Optimize: Only draw connections for nearby particles
     for(let i = 0; i < particles.length; i++) {
         for(let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
@@ -38,21 +41,19 @@ const ParticleBackground = () => {
             }
         }
     }
-
-
   }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d', { alpha: true });
     if (!context) return;
 
-    let frameCount = 0;
     let animationFrameId: number;
-
     const particles: any[] = [];
-    const particleCount = 50;
+    // Reduced particle count from 50 to 30 for better performance
+    const particleCount = 30;
+    let isVisible = true;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -70,25 +71,44 @@ const ParticleBackground = () => {
         });
       }
     };
-    
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
 
-    const render = () => {
-      frameCount++;
-      draw(context, frameCount, particles);
+    // Throttle render to 30 FPS for better performance
+    const render = (currentTime: number) => {
+      if (!isVisible) {
+        animationFrameId = window.requestAnimationFrame(render);
+        return;
+      }
+
+      const elapsed = currentTime - lastFrameTime.current;
+      // Target 30 FPS (33ms per frame) instead of 60 FPS
+      if (elapsed > 33) {
+        frameCountRef.current++;
+        draw(context, particles);
+        lastFrameTime.current = currentTime;
+      }
       animationFrameId = window.requestAnimationFrame(render);
     };
 
-    render();
+    // Pause animation when tab is not visible
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden;
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    render(0);
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resizeCanvas);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [draw]);
 
   return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 opacity-30" />;
-};
+});
+
+ParticleBackground.displayName = 'ParticleBackground';
 
 export default ParticleBackground;

@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { Toaster } from "@/components/ui/toaster"
-import ParticleBackground from '@/components/particle-background';
 import SplashScreen from '@/components/layout/splash-screen';
 import './globals.css';
 import { FeedProvider } from '@/context/feed-context';
@@ -16,16 +16,28 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import BottomNav from '@/components/layout/bottom-nav';
 import AppHeader from '@/components/layout/app-header';
 
+// Lazy load particle background for better initial load
+const ParticleBackground = dynamic(() => import('@/components/particle-background'), {
+  ssr: false,
+  loading: () => null
+});
+
 function AppContent({ children }: { children: React.ReactNode }) {
   const [loadingSplash, setLoadingSplash] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
 
   const isLandingPage = pathname === '/landing';
   const isDmPage = pathname.startsWith('/dms');
-  const showHeader = !isLandingPage && !isDmPage;
-  const showBottomNav = !isLandingPage && !isDmPage;
+  
+  // Memoize calculated values
+  const { showHeader, showBottomNav } = useMemo(() => ({
+    showHeader: !isLandingPage && !isDmPage,
+    showBottomNav: !isLandingPage && !isDmPage,
+  }), [isLandingPage, isDmPage]);
 
   useEffect(() => {
+    setIsMounted(true);
     const timer = setTimeout(() => {
       setLoadingSplash(false);
     }, 2500);
@@ -33,7 +45,7 @@ function AppContent({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loadingSplash) {
+  if (!isMounted || loadingSplash) {
     return <SplashScreen />;
   }
 

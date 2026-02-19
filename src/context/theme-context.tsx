@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useMemo, useCallback } from 'react';
 
 /**
  * @type {'dark' | 'light'} Theme
@@ -43,13 +43,15 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
      * Sets the application theme and persists it to localStorage.
      * @param {Theme} newTheme - The new theme to apply ('dark' or 'light').
      */
-    const handleSetTheme = (newTheme: Theme) => {
+    const handleSetTheme = useCallback((newTheme: Theme) => {
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
-    }
+    }, []);
+
+    const value = useMemo(() => ({ theme, setTheme: handleSetTheme }), [theme, handleSetTheme]);
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme: handleSetTheme }}>
+        <ThemeContext.Provider value={value}>
             {children}
         </ThemeContext.Provider>
     );

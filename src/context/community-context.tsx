@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo, useCallback } from 'react';
 
 /**
  * @interface Message
@@ -83,7 +83,7 @@ export const CommunityProvider = ({ children }: { children: ReactNode }) => {
      * Adds a new community to the state.
      * @param {Omit<Community, 'id' | 'members'>} community - The community data to add, without id and member count.
      */
-    const addCommunity = (community: Omit<Community, 'id' | 'members'>) => {
+    const addCommunity = useCallback((community: Omit<Community, 'id' | 'members'>) => {
         const newCommunity: Community = {
             ...community,
             id: Date.now(),
@@ -98,7 +98,7 @@ export const CommunityProvider = ({ children }: { children: ReactNode }) => {
             }
             return [newCommunity, ...prev]
         });
-    };
+    }, []);
 
     /**
      * Retrieves messages for a specific channel in a community.

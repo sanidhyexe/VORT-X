@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo, useCallback } from 'react';
 
 export interface Comment {
     id: number;
@@ -114,11 +114,11 @@ export const FeedProvider = ({ children }: { children: ReactNode }) => {
     const [feedItems, setFeedItems] = useState<FeedItem[]>(initialFeedItems);
     const [stories, setStories] = useState<Story[]>(initialStories);
 
-    const getPost = (id: number) => {
+    const getPost = useCallback((id: number) => {
         return feedItems.find(item => item.id === id);
-    };
+    }, [feedItems]);
 
-    const toggleLike = (id: number) => {
+    const toggleLike = useCallback((id: number) => {
         setFeedItems(prevItems =>
             prevItems.map(item => {
                 if (item.id === id) {
@@ -133,9 +133,9 @@ export const FeedProvider = ({ children }: { children: ReactNode }) => {
                 return item;
             })
         );
-    };
+    }, []);
 
-    const toggleSave = (id: number) => {
+    const toggleSave = useCallback((id: number) => {
         setFeedItems(prevItems =>
             prevItems.map(item => {
                 if (item.id === id) {
@@ -144,9 +144,9 @@ export const FeedProvider = ({ children }: { children: ReactNode }) => {
                 return item;
             })
         );
-    };
+    }, []);
 
-    const addComment = (postId: number, comment: Comment) => {
+    const addComment = useCallback((postId: number, comment: Comment) => {
         setFeedItems(prevItems =>
             prevItems.map(item => {
                 if (item.id === postId) {
@@ -160,9 +160,9 @@ export const FeedProvider = ({ children }: { children: ReactNode }) => {
                 return item;
             })
         );
-    };
+    }, []);
     
-    const addPost = (content: string) => {
+    const addPost = useCallback((content: string) => {
         const newPost: FeedItem = {
             id: Date.now(),
             user: { 
@@ -187,10 +187,20 @@ export const FeedProvider = ({ children }: { children: ReactNode }) => {
         };
 
         setFeedItems(prevItems => [newPost, ...prevItems]);
-    };
+    }, []);
+
+    const value = useMemo(() => ({ 
+        feedItems, 
+        stories, 
+        getPost, 
+        toggleLike, 
+        toggleSave, 
+        addComment, 
+        addPost 
+    }), [feedItems, stories, getPost, toggleLike, toggleSave, addComment, addPost]);
 
     return (
-        <FeedContext.Provider value={{ feedItems, stories, getPost, toggleLike, toggleSave, addComment, addPost }}>
+        <FeedContext.Provider value={value}>
             {children}
         </FeedContext.Provider>
     );
