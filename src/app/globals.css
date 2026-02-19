@@ -1,0 +1,206 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 210 40% 98%;
+    --card: 240 4% 4%;
+    --card-foreground: 210 40% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 284 82% 56%; /* Electric Purple */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 180 100% 50%; /* Cyan */
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --radius: 0.5rem;
+    --profile-card-background: hsl(0, 0% 5%);
+
+     /* Custom Chat Colors */
+    --chat-bubble-sent-bg: hsl(var(--primary));
+    --chat-bubble-sent-fg: hsl(var(--primary-foreground));
+    --chat-bubble-received-bg: hsl(var(--secondary));
+    --chat-bubble-received-fg: hsl(var(--secondary-foreground));
+    
+    /* Social Feed Colors */
+    --gaming-surface: #000000;
+    --gaming-surface-secondary: #1e1e1e;
+    --gaming-text-primary: #e0e0e0;
+    --gaming-text-secondary: #a0a0a0;
+    --gaming-border: #2c2c2c;
+    --gaming-primary: #BE29EC;
+    --gaming-accent: #00FFFF;
+
+    /* Sidebar Active Color */
+    --sidebar-active: 284 82% 56% / 0.1;
+    --sidebar-active-foreground: 284 82% 56%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 210 40% 98%;
+    --card: 240 4% 4%;
+    --card-foreground: 210 40% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 284 82% 56%; /* Electric Purple */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 180 100% 50%; /* Cyan */
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+     --profile-card-background: hsl(0, 0%, 5%);
+    
+    /* Custom Chat Colors */
+    --chat-bubble-sent-bg: hsl(var(--primary));
+    --chat-bubble-sent-fg: hsl(var(--primary-foreground));
+    --chat-bubble-received-bg: hsl(var(--secondary));
+    --chat-bubble-received-fg: hsl(var(--secondary-foreground));
+
+    /* Social Feed Colors */
+    --gaming-surface: #000000;
+    --gaming-surface-secondary: #1e1e1e;
+    --gaming-text-primary: #e0e0e0;
+    --gaming-text-secondary: #a0a0a0;
+    --gaming-border: #2c2c2c;
+    --gaming-primary: #BE29EC;
+    --gaming-accent: #00FFFF;
+
+    /* Sidebar Active Color */
+    --sidebar-active: 284 82% 56% / 0.1;
+    --sidebar-active-foreground: 284 82% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .card {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .profile-card {
+    background-color: hsl(var(--profile-card-background));
+  }
+}
+
+@layer utilities {
+  .splash-screen {
+    animation: fade-out 0.5s ease-in-out forwards;
+    animation-delay: 2s; /* Start fade-out after 2s */
+  }
+
+  .splash-logo {
+    animation: fade-in-scale 1s ease-in-out forwards;
+  }
+
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+  }
+
+  @keyframes fade-in-scale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  .animated-gamepad {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+  .animate-pop {
+    animation: pop 0.3s ease-in-out;
+  }
+
+  /* Chat Bubble Styles */
+  .chat-bubble-sent {
+    border-bottom-right-radius: 0.125rem;
+  }
+  .chat-bubble-received {
+    border-bottom-left-radius: 0.125rem;
+  }
+  
+  /* Social Feed Utilities */
+  .bg-gradient-primary {
+    background: linear-gradient(45deg, var(--gaming-primary), var(--gaming-accent));
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+
+  .animate-pulse-live {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Hide scrollbar for stories */
+  .stories-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .stories-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Bottom Nav */
+  .bottom-nav-active > svg {
+    color: hsl(var(--primary));
+  }
+  .bottom-nav-active > span {
+     color: hsl(var(--primary));
+  }
+
+}
