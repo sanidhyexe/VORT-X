@@ -1,7 +1,7 @@
 # VORT-X: The Professional Network for Gamers
 
 <p align="center">
-  <img src="./IMAGES/banner.jpg" alt="VORT-X - Gaming Setup with RGB Keyboard, Mouse, Headset and Controller" width="100%">
+  <img src="IMAGES/FSFGRXS.jpg" alt="VORT-X - Gaming Setup with RGB Keyboard, Mouse, Headset and Controller" width="100%">
 </p>
 
 <p align="center">
