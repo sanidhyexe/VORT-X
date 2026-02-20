@@ -22,7 +22,6 @@
   <img src="https://img.shields.io/badge/React-18.3.1-blue?logo=react" alt="React">
   <img src="https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript" alt="TypeScript">
   <img src="https://img.shields.io/badge/Tailwind-3.4.1-38B2AC?logo=tailwind-css" alt="Tailwind">
-  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
 ---
@@ -393,12 +392,6 @@ We welcome contributions from the community! Here's how you can help:
 - 🎨 **Design**: UI/UX improvements
 - ⚡ **Performance**: Optimization suggestions
 - 🧪 **Testing**: Add test coverage
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
