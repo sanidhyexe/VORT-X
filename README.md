@@ -40,6 +40,16 @@ VORT-X is a **modern social platform designed exclusively for gamers**. It's the
 
 ---
 
+## 🎬 Demo / Preview
+
+<p align="center">
+  <img src="IMAGES/dashboard-demo.png" alt="VORT-X Dashboard - Welcome screen with tournaments, analytics, and live events" width="100%">
+</p>
+
+The VORT-X dashboard gives you an at-a-glance view of your gaming world with live tournament alerts, performance analytics, and tournament management all in one place.
+
+---
+
 ## ✨ Features
 
 ### 🎯 Core Features
